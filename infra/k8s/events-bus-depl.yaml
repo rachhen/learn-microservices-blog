@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-bus-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: events-bus
+  template:
+    metadata:
+      labels:
+        app: events-bus
+    spec:
+      containers:
+        - name: events-bus
+          image: woufu/events-bus
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: events-bus-srv
+spec:
+  selector:
+    app: events-bus
+  ports:
+    - name: events-bus
+      protocol: TCP
+      port: 4005
+      targetPort: 4005
